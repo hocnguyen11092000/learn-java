@@ -1,5 +1,6 @@
 package com.dev.example;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -23,6 +24,19 @@ public class Student {
             updatable = false
     )
     private String some_column;
+
+    @OneToOne(
+            mappedBy = "student",
+            cascade = CascadeType.ALL
+    )
+    private StudentProfile studentProfile;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "school_id"
+    )
+    @JsonBackReference
+    private School school;
 
     public Student() {
     }
@@ -72,5 +86,29 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getSome_column() {
+        return some_column;
+    }
+
+    public void setSome_column(String some_column) {
+        this.some_column = some_column;
+    }
+
+    public StudentProfile getStudentProfile() {
+        return studentProfile;
+    }
+
+    public void setStudentProfile(StudentProfile studentProfile) {
+        this.studentProfile = studentProfile;
+    }
+
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
     }
 }
